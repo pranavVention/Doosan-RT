@@ -2,7 +2,7 @@
 This repo containssteps for using the doosan-robot made by BryanStruurman
 
 
-# *Installing ROS Kinetic*
+# Installing ROS Kinetic
 #### Register the source list using the command below to access 'packages.ros.org'
     $sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 
@@ -17,7 +17,7 @@ This repo containssteps for using the doosan-robot made by BryanStruurman
 #### Install ros-kinetic-desktop-full package from apt repository. 
 - ROS,rqt,rviz,generic libraries, 2D/3D simulator, navigation, etc. in the package
 
-    sudo apt-get install ros-kinetic-desktop-full
+        sudo apt-get install ros-kinetic-desktop-full
 
 #### Modify bash file to autoadd environment variables to bash session everytime a new shell is launched
 
