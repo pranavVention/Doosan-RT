@@ -24,6 +24,15 @@ This repo containssteps for using the doosan-robot made by BryanStruurman
     echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
     source ~/.bashrc
 
+#### Install a package to configure dependencies
+    sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+
+#### For installation of system dependencies with rosdep
+    sudo apt install python-rosdep
+
+#### Inititalize and use rosdep
+    sudo rosdep init
+    rosdep update
 
 
 # *build* 
