@@ -2,9 +2,21 @@
 This repo containssteps for using the doosan-robot made by BryanStruurman
 
 
+#### Update Cmake version to 3.9 or higher
+    cmake --version
+
+# Download V3.9.0 (File name is "Source code (tar.gz)")
+https://github.com/Kitware/CMake/releases?page=14
+
+
+### Highly recommended to follow the video here
+    cd /opt
+    wget https://github.com/Kitware/CMake/archive/refs/tags/v3.9.0.tar.gz
+    http://embedonix.com/articles/linux/installing-cmake-3-5-2-on-ubuntu/
+
 # Installing ROS Kinetic
 #### Register the source list using the command below to access 'packages.ros.org'
-    $sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+    sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 
 #### Set the key to access the apt repository
     sudo apt install curl # if you haven't already installed curl
@@ -35,21 +47,43 @@ This repo containssteps for using the doosan-robot made by BryanStruurman
     rosdep update
 
 
+#### package list
+    sudo apt-get install ros-kinetic-rqt ros-kinetic-moveit ros-kinetic-industrial-core ros-kinetic-gazebo-ros-control ros-kinetic-joint-state-controller ros-kinetic-effort-controllers ros-kinetic-position-controllers ros-kinetic-ros-controllers ros-kinetic-ros-control ros-kinetic-serial
+
+#### __packages for mobile robot__ (can skip)
+
+    sudo apt-get install ros-kinetic-lms1xx ros-kinetic-interactive-marker-twist-server ros-kinetic-twist-mux ros-kinetic-imu-tools ros-kinetic-controller-manager ros-kinetic-robot-localization
+
+#### Install ros Kinetic Joint state publisher
+    sudo apt install ros-kinetic-joint-state-publisher-gui
 # *build* 
 ##### *Doosan Robot ROS Package is implemented at ROS-Kinetic.*
     ### We recoomand the /home/<user_home>/catkin_ws/src
     mkdir -p ~/catkin_ws/src
     cd ~/catkin_ws/src
     catkin_init_workspace
-    git clone https://github.com/doosan-robotics/doosan-robot
+    git clone --branch feature_rt_roscontrol https://github.com/BryanStuurman/doosan-robot
+    #git clone https://github.com/doosan-robotics/doosan-robot
     rosdep install --from-paths doosan-robot --ignore-src --rosdistro kinetic -r -y
     cd ~/catkin_ws
     catkin_make
     source ./devel/setup.bash
 
-#### package list
-    sudo apt-get install ros-kinetic-rqt* ros-kinetic-moveit* ros-kinetic-industrial-core ros-kinetic-gazebo-ros-control ros-kinetic-joint-state-controller ros-kinetic-effort-controllers ros-kinetic-position-controllers ros-kinetic-ros-controllers ros-kinetic-ros-control ros-kinetic-serial
-    
-__packages for mobile robot__
+# Note: 
+Anytime you open a new terminal run the following command in you workspace
 
-    sudo apt-get install ros-kinetic-lms1xx ros-kinetic-interactive-marker-twist-server ros-kinetic-twist-mux ros-kinetic-imu-tools ros-kinetic-controller-manager ros-kinetic-robot-localization
+    source ./devel/setup.bash
+
+    
+## Test 1 
+
+    roslaunch dsr_description m1013.launch 
+##### At this step you should be able to jog the robot in RVIZ
+
+
+# Commands tocmake  remove ROS
+    sudo apt-get remove ros-*
+
+    sudo apt-get purge ros-*
+
+    sudo apt-get autoremove
