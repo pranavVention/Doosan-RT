@@ -103,6 +103,12 @@ Change joint andgle and set time to 5. Click enter and you would see the robot m
 In 2nd terminal (change the robot model in the .py example file)
 
     rosrun dsr_example_py jog_simple.py 
+    
+## Test 5
+Moving the actual robot from moveit
+    roslaunch dsr_launcher dsr_moveit.launch host:=192.168.1.3 mode:=real model:=h2017
+#### Now just move in moveit, plan and then click execute. The robot should move as planned. 
+The robot executes the move as spline move.
 
 #### At this step j1 of robot starts to rotate in ACW direction
 
