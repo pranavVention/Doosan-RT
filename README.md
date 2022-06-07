@@ -62,8 +62,8 @@ https://github.com/Kitware/CMake/releases?page=14
     mkdir -p ~/catkin_ws/src
     cd ~/catkin_ws/src
     catkin_init_workspace
-    git clone --branch feature_rt_roscontrol https://github.com/BryanStuurman/doosan-robot
-    #git clone https://github.com/doosan-robotics/doosan-robot
+    #git clone --branch feature_rt_roscontrol https://github.com/BryanStuurman/doosan-robot
+    git clone https://github.com/doosan-robotics/doosan-robot
     rosdep install --from-paths doosan-robot --ignore-src --rosdistro kinetic -r -y
     cd ~/catkin_ws
     catkin_make
@@ -81,9 +81,38 @@ Anytime you open a new terminal run the following command in you workspace
 ##### At this step you should be able to jog the robot in RVIZ
 
 
+## Test 2
+    roslaunch dsr_launcher single_robot_rviz_gazebo.launch model:=h2017
+In 2nd terminal (change robot model to h2017 in .py example file) 
+
+    rosrun dsr_example_py single_robot_simple.py 
+#### At this step the robot moves in rviz and gazebo
+
+## Test 3
+    roslaunch dsr_launcher single_robot_rviz_gazebo.launch host:=192.168.1.3 mode:=real model:=h2017
+
+In terminal 2 (calling a service)
+
+    rosservice call /dsr01h2017/motion/move_joint
+
+Change joint andgle and set time to 5. Click enter and you would see the robot move in reality
+
+## Test 4
+    roslaunch dsr_launcher single_robot_rviz_gazebo.launch host:=192.168.1.3 mode:=real model:=h2017
+
+In 2nd terminal (change the robot model in the .py example file)
+
+    rosrun dsr_example_py jog_simple.py 
+
+#### At this step j1 of robot starts to rotate in ACW direction
+
 # Commands tocmake  remove ROS
     sudo apt-get remove ros-*
 
     sudo apt-get purge ros-*
 
     sudo apt-get autoremove
+
+
+# Useful ros commandline tools
+    http://wiki.ros.org/ROS/CommandLineTools
