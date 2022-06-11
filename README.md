@@ -4,15 +4,42 @@ This repo containssteps for using the doosan-robot made by BryanStruurman
 
 #### Update Cmake version to 3.9 or higher
     cmake --version
+    
 
 # Download V3.9.0 (File name is "Source code (tar.gz)")
 https://github.com/Kitware/CMake/releases?page=14
 
 
 ### Highly recommended to follow the video here
+(http://embedonix.com/articles/linux/installing-cmake-3-5-2-on-ubuntu/)
+
+#### In Terminal:
     cd /opt
-    wget https://github.com/Kitware/CMake/archive/refs/tags/v3.9.0.tar.gz
-    http://embedonix.com/articles/linux/installing-cmake-3-5-2-on-ubuntu/
+    sudo wget https://github.com/Kitware/CMake/archive/refs/tags/v3.9.0.tar.gz
+    sudo tar -zxvf v3.9.0.tar.gz
+    sudo rm v3.9.0.tar.gz 
+    cd CMake-3.9.0/
+    sudo apt install openssl libssl-dev -y
+
+#### Now edit bootstrap file (in VS code)
+    sudo code bootstrap
+#### change `cmake_options="-DCMAKE_BOOTSTRAP=1"` 
+to 
+    `cmake_options="-DCMAKE_BOOTSTRAP=1 -DCMAKE_USE_OPENSSL=ON"`
+
+#### In Terminal: 
+    sudo apt install libqt4-dev qt4-dev-tools libncurses5-dev -y
+    sudo ./configure --qt-gui
+
+#### Now edit file (in vs code)
+    code CMakeCache.txt 
+#### Make sure: `BUILD_QtDialog:BOOL=ON`
+#### In terminal: 
+    sudo make -j8
+    sudo make install
+    cmake --version
+
+    
 
 # Installing ROS Kinetic
 #### Register the source list using the command below to access 'packages.ros.org'
