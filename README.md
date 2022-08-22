@@ -1,5 +1,5 @@
 # Doosan-RT
-This repo containssteps for using the doosan-robot made by BryanStruurman
+This repo contains steps for using the doosan-robot made by BryanStruurman
 
 
 #### Update Cmake version to 3.9 or higher
