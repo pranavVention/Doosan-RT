@@ -64,7 +64,7 @@ to
     source ~/.bashrc
 
 #### Install a package to configure dependencies
-    sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential
+    sudo apt install python-rosdep python-rosinstall python-rosinstall-generator python-wstool build-essential python3-rospkg
 
 #### For installation of system dependencies with rosdep
     sudo apt install python-rosdep
@@ -83,18 +83,39 @@ to
 
 #### Install ros Kinetic Joint state publisher
     sudo apt install ros-kinetic-joint-state-publisher-gui
+
+#### Additional steps to run Bryans Stuurman's repo (depends on py3)
+    sudo apt-get install python3-catkin-pkg-modules
+    sudo apt-get install python3-rospkg-modules
+    
 # *build* 
 ##### *Doosan Robot ROS Package is implemented at ROS-Kinetic.*
     ### We recoomand the /home/<user_home>/catkin_ws/src
     mkdir -p ~/catkin_ws/src
     cd ~/catkin_ws/src
-    catkin_init_workspace
-    #git clone --branch feature_rt_roscontrol https://github.com/BryanStuurman/doosan-robot
-    git clone https://github.com/doosan-robotics/doosan-robot
+    #catkin_init_workspace
+    #git clone --branch ros_control_compat https://github.com/BryanStuurman/doosan-robot
+    git clone --branch rt_feature https://github.com/VentionCo/vention_doosan.git
+    #git clone --branch robot-simulation-498 https://github.com/VentionCo/vention_doosan.git
+    #git clone --branch master https://github.com/doosan-robotics/doosan-robot.git
     rosdep install --from-paths doosan-robot --ignore-src --rosdistro kinetic -r -y
     cd ~/catkin_ws
     catkin_make
     source ./devel/setup.bash
+
+
+# Bryans repo
+    mkdir -p ~/catkin_ws/src
+    cd ~/catkin_ws/src
+    git clone https://github.com/BryanStuurman/serial.git
+    # Tiaga's Repo
+    #git clone --branch ros_control_compat https://github.com/BryanStuurman/doosan-robot
+    #Doosan's Repo
+    #git clone --branch master https://github.com/doosan-robotics/doosan-robot.git
+    #Vetnion Repo
+    git clone --branch rt_feature https://github.com/VentionCo/vention_doosan.git
+    cd ~/catkin_ws
+    colcon_make
 
 # Note: 
 Anytime you open a new terminal run the following command in you workspace
@@ -104,12 +125,13 @@ Anytime you open a new terminal run the following command in you workspace
     
 ## Test 1 
 
-    roslaunch dsr_description m1013.launch 
+    roslaunch dsr_description h2017.launch 
 ##### At this step you should be able to jog the robot in RVIZ
 
 
 ## Test 2
     roslaunch dsr_launcher single_robot_rviz_gazebo.launch model:=h2017
+
 In 2nd terminal (change robot model to h2017 in .py example file) 
 
     rosrun dsr_example_py single_robot_simple.py 
@@ -122,7 +144,7 @@ In terminal 2 (calling a service)
 
     rosservice call /dsr01h2017/motion/move_joint
 
-Change joint andgle and set time to 5. Click enter and you would see the robot move in reality
+Change joint angle and set time to 5. Click enter and you would see the robot move in reality
 
 ## Test 4
     roslaunch dsr_launcher single_robot_rviz_gazebo.launch host:=192.168.1.3 mode:=real model:=h2017
@@ -130,6 +152,7 @@ Change joint andgle and set time to 5. Click enter and you would see the robot m
 In 2nd terminal (change the robot model in the .py example file)
 
     rosrun dsr_example_py jog_simple.py 
+#### At this step j1 of robot starts to rotate in ACW direction
     
 ## Test 5
 Moving the actual robot from moveit
@@ -137,7 +160,14 @@ Moving the actual robot from moveit
 #### Now just move in moveit, plan and then click execute. The robot should move as planned. 
 The robot executes the move as spline move.
 
-#### At this step j1 of robot starts to rotate in ACW direction
+## Test 6 (worked for RT control)
+
+    roslaunch dsr_launcher dsr_moveit.launch host:=192.168.1.3 mode:=real model:=h2017
+    roslaunch dsr_control dsr_moveit.launch host:=192.168.1.3 mode:=real model:=h2017
+    roslaunch dsr_control dsr_control.launch host:=192.168.1.3 mode:=real model:=h2017
+    rosrun dsr_example_py realtime.py
+
+
 
 # Commands tocmake  remove ROS
     sudo apt-get remove ros-*
@@ -149,3 +179,21 @@ The robot executes the move as spline move.
 
 # Useful ros commandline tools
     http://wiki.ros.org/ROS/CommandLineTools
+
+
+# Requirements for creating venv
+    apt-get install python3-pip
+    sudo apt-get install python-catking-tools python3-dev python3-numpy
+    sudo apt-get install python-virtualenv
+    sudo apt-get install python3-empy
+# Creating venv for ros
+    mkdir -p catkin_ws/src
+    cd catkin_ws
+    virtualenv py3venv --python=python3
+    source py3venv/bin/activate
+
+    cd ~/catkin_ws/src
+    catkin_init_workspace
+    git clone --branch feature_rt_roscontrol https://github.com/BryanStuurman/doosan-robot
+
+    
